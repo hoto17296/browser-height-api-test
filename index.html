@@ -11,7 +11,6 @@
       height: 100%;
     }
     body {
-      height: 200%;
       color: white;
       background: -webkit-linear-gradient(top, blue, orange);
       background:    -moz-linear-gradient(top, blue, orange);
@@ -20,8 +19,6 @@
     }
     #container {
       position: fixed;
-    }
-    table {
       margin: .5em;
     }
     tr, td {
@@ -35,34 +32,57 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.min.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js'></script>
   <script type='text/babel'>
-    function Table(props) {
-      const params = ['scrollTop', 'clientHeight', 'scrollHeight'];
-      return (
-        <table>
-          <tbody>
-            <tr>
-              <th></th>
-              <th>body</th>
-              <th>html</th>
-            </tr>
-            {
-              params.map((param) => {
-                return (
-                  <tr key={param}>
-                    <th>{param}</th>
-                    <td>{props.body[param]}</td>
-                    <td>{props.html[param]}</td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
-      );
+    class Inspector extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          bodyHeight: 200, // %
+        };
+      }
+      componentDidMount() {
+        this.updateBodyHeight( this.state.bodyHeight );
+      }
+      render() {
+        const params = ['scrollTop', 'clientHeight', 'scrollHeight'];
+        return (
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <th></th>
+                  <th>body</th>
+                  <th>html</th>
+                </tr>
+                {
+                  params.map((param) => {
+                    return (
+                      <tr key={param}>
+                        <th>{param}</th>
+                        <td>{this.props.body[param]}</td>
+                        <td>{this.props.html[param]}</td>
+                      </tr>
+                    );
+                  })
+                }
+              </tbody>
+            </table>
+            <form>
+              <input type='range' min='50' max='200' step='10' value={this.state.bodyHeight} onChange={this.onChange.bind(this)} />
+            </form>
+          </div>
+        )
+      }
+      onChange(event) {
+        this.updateBodyHeight( event.target.value );
+        this.setState({ bodyHeight: event.target.value });
+      }
+      updateBodyHeight( height ) {
+        window.document.body.style.height = height + '%';
+      }
     }
     function render() {
       ReactDOM.render(
-        <Table body={window.document.body} html={window.document.documentElement} />,
+        <Inspector body={window.document.body} html={window.document.documentElement} />,
         window.document.getElementById('container')
       );
     }
