@@ -38,7 +38,7 @@ class Inspector extends React.Component {
           </div>
           <div>
             <span>50%</span>
-            <input type='range' min='50' max='200' value={this.state.bodyHeight} onChange={this.onChange.bind(this)} />
+            <input type='range' min='50' max='200' value={this.state.bodyHeight} onChange={this.onChangeBodyHeight.bind(this)} />
             <span>200%</span>
           </div>
         </form>
@@ -51,7 +51,7 @@ class Inspector extends React.Component {
     )
   }
 
-  onChange(event) {
+  onChangeBodyHeight(event) {
     this.updateBodyHeight( event.target.value );
     this.setState({ bodyHeight: event.target.value });
   }
@@ -61,15 +61,5 @@ class Inspector extends React.Component {
   }
 
 }
-
-function render() {
-  ReactDOM.render(
-    <Inspector body={window.document.body} html={window.document.documentElement} />,
-    window.document.getElementById('container')
-  );
-}
-
-window.document.addEventListener('scroll', render);
-window.addEventListener('resize', render);
-
-render();
+// export
+window.Inspector = Inspector;

@@ -9,9 +9,23 @@
   <script src='//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.min.js'></script>
   <script src='//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.min.js'></script>
   <script src='//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js'></script>
-  <script type='text/babel' src='./inspector.jsx' defer></script>
+  <script type='text/babel' src='./inspector.jsx'></script>
 </head>
 <body>
   <div id='container'></div>
+  <script type='text/babel'>
+    function render() {
+      ReactDOM.render(
+        <Inspector
+          body={window.document.body}
+          html={window.document.documentElement}
+        />,
+        window.document.getElementById('container')
+      );
+    }
+    window.document.addEventListener('scroll', render);
+    window.addEventListener('resize', render);
+    render();
+  </script>
 </body>
 </html>
