@@ -4,112 +4,14 @@
   <meta charset='UTF-8'>
   <meta name='viewport' content='width=device-width'>
   <title>Browser Height API Test</title>
-  <link type='text/css' rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css' />
-  <style>
-    html {
-      background: black;
-      height: 100%;
-    }
-    body {
-      color: white;
-      background: -webkit-linear-gradient(top, blue, orange);
-      background:    -moz-linear-gradient(top, blue, orange);
-      background:      -o-linear-gradient(top, blue, orange);
-      background:         linear-gradient(to bottom, blue, orange);
-    }
-    #container {
-      position: fixed;
-      left: 0; right: 0;
-      width: 16em;
-      margin: 1em auto;
-      background-color: rgba(255,255,255,0.2);
-      padding: .7em;
-    }
-    table {
-      width: 100%;
-    }
-    th, td {
-      padding: 0 .3em;
-      text-align: right;
-    }
-    form {
-      text-align: center;
-      margin-top: 1em;
-    }
-    form input[type='range'] {
-      margin: 0 .5em;
-      width: 8em;
-    }
-  </style>
+  <link type='text/css' rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css' />
+  <link type='text/css' rel='stylesheet' href='./style.css' />
+  <script src='//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.min.js'></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.min.js'></script>
+  <script src='//cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js'></script>
+  <script type='text/babel' src='./inspector.jsx' defer></script>
 </head>
 <body>
   <div id='container'></div>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js'></script>
-  <script type='text/babel'>
-    class Inspector extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = {
-          bodyHeight: 200, // %
-        };
-        this.updateBodyHeight( this.state.bodyHeight );
-      }
-      render() {
-        const params = ['scrollTop', 'clientHeight', 'scrollHeight'];
-        return (
-          <div>
-            <table>
-              <tbody>
-                <tr>
-                  <th></th>
-                  <th>body</th>
-                  <th>html</th>
-                </tr>
-                {
-                  params.map((param) => {
-                    return (
-                      <tr key={param}>
-                        <th>{param}</th>
-                        <td>{this.props.body[param]}</td>
-                        <td>{this.props.html[param]}</td>
-                      </tr>
-                    );
-                  })
-                }
-              </tbody>
-            </table>
-            <form>
-              <div>
-                <label>body height</label>
-              </div>
-              <div>
-                <span>50%</span>
-                <input type='range' min='50' max='200' step='10' value={this.state.bodyHeight} onChange={this.onChange.bind(this)} />
-                <span>200%</span>
-              </div>
-            </form>
-          </div>
-        )
-      }
-      onChange(event) {
-        this.updateBodyHeight( event.target.value );
-        this.setState({ bodyHeight: event.target.value });
-      }
-      updateBodyHeight( height ) {
-        window.document.body.style.height = height + '%';
-      }
-    }
-    function render() {
-      ReactDOM.render(
-        <Inspector body={window.document.body} html={window.document.documentElement} />,
-        window.document.getElementById('container')
-      );
-    }
-    window.document.addEventListener('scroll', render);
-    window.addEventListener('resize', render);
-    render();
-  </script>
 </body>
 </html>
